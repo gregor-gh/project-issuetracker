@@ -75,7 +75,7 @@ module.exports = function (app) {
 
     // if id is blank return error
     if(id==="")
-      return res.json({error: "missing_id"})
+      return res.json({error: "missing _id"})
 
     const delProject = async () => {
       try {
