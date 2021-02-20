@@ -28,10 +28,10 @@ module.exports = function (app) {
   .post(function (req, res){
     // get form fields
     let project = req.params.project;
-    const { assigned_to, created_by, issue_text, issue_title, status_text } = req.body;
+    const { assigned_to, created_by, issue_text, issue_title, status_text } = req.query;
 
-    if(issue_title===""||issue_text===""||created_by==="")
-      return res.post({error:'required field(s) missing'})
+    if(issue_title===""||issue_text===""||created_by===""||issue_title===undefined||issue_text===undefined||created_by===undefined)
+      return res.json({error:'required field(s) missing'})
 
     //build project to submit to db
     const issue = { 
