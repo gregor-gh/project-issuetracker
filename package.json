@@ -4,8 +4,7 @@
 	"description": "Issue Tracker Boilerplate",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js",
-		"test": "\"mocha --timeout 5000 --recursive --exit --ui tdd tests/\""
+		"start": "node server.js"
 	},
 	"dependencies": {
 		"@azure/cosmos": "^3.9.5",
