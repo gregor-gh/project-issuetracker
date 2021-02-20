@@ -17,9 +17,17 @@ const createDb = async() => {
 
 const createProject = async(project) => {
   try {
+    // create project and get repsonse
     const { resource: createdItem } = await container.items.create(project)
+
+    // remove unneeded fields from response
     const { _rid, _self, _etag, _attachments, _ts, ...returnedItem } = createdItem;
-    return returnedItem;
+
+
+    const _id = returnedItem.id
+    const { id, ...returnedItemMod} = { ...returnedItem, _id }
+    
+    return returnedItemMod;
   }
   catch(e) { 
     console.log(e)
@@ -29,7 +37,7 @@ const createProject = async(project) => {
 
 const selectProject = async(id) => {
   try {
-    let query = `select c.assigned_to, c.created_by, c.created_on, c.issue_text, c.issue_title, c.open, c.status_text, c.updated_on, c.id from c`
+    let query = `select c.assigned_to, c.created_by, c.created_on, c.issue_text, c.issue_title, c.open, c.status_text, c.updated_on, c.id as _id from c`
 
     if(id!=="apitest")
       query+=` where c.id='${id}'`

@@ -81,11 +81,11 @@ module.exports = function (app) {
 
         // return success if there is a response
         if(response)
-          res.json({"result":"successfully deleted","_id":project})
+          res.json({result:'successfully deleted','_id':project})
 
         // return error if no response (due to returning null in the deleteProject method)
         else
-          res.json({error: "could not delete ", "_id": project})
+          res.json({error: 'could not delete ', '_id': project})
       } catch (e) {
         console.log(e)
         res.json({"error":e})
