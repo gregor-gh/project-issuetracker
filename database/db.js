@@ -32,7 +32,7 @@ const createIssue = async(proj) => {
 
     const returnItem = await selectIssue(id)
 
-    return returnItem;
+    return returnItem[0];
   }
   catch(e) { 
     console.log(e)
