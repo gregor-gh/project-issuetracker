@@ -28,7 +28,7 @@ module.exports = function (app) {
   .post(function (req, res){
     // get form fields
     let project = req.params.project;
-    const { assigned_to, created_by, issue_text, issue_title, status_text } = req.query;
+    const { assigned_to, created_by, issue_text, issue_title, status_text } = req.body;
 
     if(issue_title===""||issue_text===""||created_by===""||issue_title===undefined||issue_text===undefined||created_by===undefined)
       return res.json({error:'required field(s) missing'})
