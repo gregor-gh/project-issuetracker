@@ -31,7 +31,7 @@ module.exports = function (app) {
     const { assigned_to, created_by, issue_text, issue_title, status_text } = req.body;
 
     if(issue_title===""||issue_text===""||created_by==="")
-      return res.json({error:"required field(s) missing"})
+      return res.post({error:'required field(s) missing'})
 
     //build project to submit to db
     const issue = { 
