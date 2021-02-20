@@ -11,10 +11,10 @@ module.exports = function (app) {
   .get(function (req, res){
     let project = req.params.project;
 
-    const getProject = async () => {
+    const getIssue = async () => {
       // try fetching results
       try {
-        const response = await db.selectProject(project)
+        const response = await db.selectIssue(null,project)
         return res.json(response)
       } catch (error) {
         console.log(error)
@@ -22,18 +22,20 @@ module.exports = function (app) {
       }
     } 
 
-    getProject()
+    getIssue()
   })
   
   .post(function (req, res){
     // get form fields
+    let project = req.params.project;
     const { assigned_to, created_by, issue_text, issue_title, status_text } = req.body;
 
     if(issue_title===""||issue_text===""||created_by==="")
       return res.json({error:"required field(s) missing"})
 
     //build project to submit to db
-    const project = { 
+    const issue = { 
+      project,
       assigned_to, 
       created_by,
       created_on: new Date(), 
@@ -44,11 +46,11 @@ module.exports = function (app) {
       updated_on: new Date() 
     }
 
-    const addProject = async () => {
+    const addIssue = async () => {
       //try adding project to db
       try {
         // add then return the response
-        const response = await db.createProject(project)
+        const response = await db.createIssue(issue)
         res.json(response)
       } catch (e) {
         // else log and throw error
@@ -56,7 +58,7 @@ module.exports = function (app) {
         res.json({"error":e})
       }
     }
-    addProject()
+    addIssue()
   })
   
   .put(function (req, res){
@@ -68,24 +70,25 @@ module.exports = function (app) {
   })
   
   .delete(function (req, res){
-    let project = req.body._id;
+    let project = req.params.project;
+    let id = req.body._id;
 
     // if id is blank return error
-    if(project==="")
+    if(id==="")
       return res.json({error: "missing_id"})
 
     const delProject = async () => {
       try {
         // attempt to delete resposne
-        const response = await db.deleteProject(project)
+        const response = await db.deleteIssue(id)
 
         // return success if there is a response
         if(response)
-          res.json({result:'successfully deleted','_id':project})
+          res.json({result:'successfully deleted','_id':id})
 
         // return error if no response (due to returning null in the deleteProject method)
         else
-          res.json({error: 'could not delete ', '_id': project})
+          res.json({error: 'could not delete', '_id': id})
       } catch (e) {
         console.log(e)
         res.json({"error":e})

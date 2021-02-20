@@ -15,13 +15,13 @@ const createDb = async() => {
   await databaseContext.create(client, databaseId, containerId);
 }
 
-const createProject = async(project) => {
+const createIssue = async(proj) => {
   try {
     // create project and get repsonse
-    const { resource: createdItem } = await container.items.create(project)
+    const { resource: createdItem } = await container.items.create(proj)
 
     // remove unneeded fields from response
-    const { _rid, _self, _etag, _attachments, _ts, ...returnedItem } = createdItem;
+    const { _rid, _self, _etag, _attachments, _ts, project, ...returnedItem } = createdItem;
 
 
     const _id = returnedItem.id
@@ -35,12 +35,13 @@ const createProject = async(project) => {
   }  
 }
 
-const selectProject = async(id) => {
+const selectIssue = async(id,project) => {
   try {
-    let query = `select c.assigned_to, c.created_by, c.created_on, c.issue_text, c.issue_title, c.open, c.status_text, c.updated_on, c.id as _id from c`
+    let query = `select c.assigned_to, c.created_by, c.created_on, c.issue_text, c.issue_title, c.open, c.status_text, c.updated_on, c.id as _id 
+    from c where `
 
-    if(id!=="apitest")
-      query+=` where c.id='${id}'`
+    if(id) query+=`c.id='${id}'`
+    else query+=`c.project='${project}'`
 
     const { resources: items } = await container.items
       .query(query)
@@ -53,10 +54,10 @@ const selectProject = async(id) => {
   }
 }
 
-const deleteProject = async(id) => {
+const deleteIssue = async(id) => {
   try {
     // select to get cosmos colleciton key for deletion 
-    const select = await selectProject(id)
+    const select = await selectIssue(id)
 
     // if nothing reutrned by this select then the id does not exist
     if(select.length===0)
@@ -76,4 +77,4 @@ const deleteProject = async(id) => {
   }
 }
 
-module.exports = { createDb, createProject, selectProject, deleteProject }
+module.exports = { createDb, createIssue, selectIssue, deleteIssue }
