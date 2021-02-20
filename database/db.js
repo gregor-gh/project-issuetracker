@@ -17,17 +17,22 @@ const createDb = async() => {
 
 const createIssue = async(proj) => {
   try {
+
+    if(proj.status_text===undefined)
+      proj.status_text=""
+
+    if(proj.assigned_to===undefined)
+      proj.assigned_to=""
+
     // create project and get repsonse
     const { resource: createdItem } = await container.items.create(proj)
 
     // remove unneeded fields from response
-    const { _rid, _self, _etag, _attachments, _ts, project, ...returnedItem } = createdItem;
+    const { id } = createdItem;
 
+    const returnItem = await selectIssue(id)
 
-    const _id = returnedItem.id
-    const { id, ...returnedItemMod} = { ...returnedItem, _id }
-    
-    return returnedItemMod;
+    return returnItem;
   }
   catch(e) { 
     console.log(e)
