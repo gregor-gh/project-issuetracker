@@ -37,7 +37,7 @@ const createIssue = async(proj) => {
 
 const selectIssue = async(id,project) => {
   try {
-    let query = `select c.assigned_to, c.created_by, c.created_on, c.issue_text, c.issue_title, c.open, c.status_text, c.updated_on, c.id as _id 
+    let query = `select c.assigned_to, c.status_text, c.open, c.id as _id, c.issue_title, c.issue_text, c.created_by, c.created_on, c.updated_on 
     from c where `
 
     if(id) query+=`c.id='${id}'`
