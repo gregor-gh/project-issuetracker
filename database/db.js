@@ -40,16 +40,17 @@ const createIssue = async(proj) => {
   }  
 }
 
-const selectIssue = async(id, project, filter) => {
+const selectIssue = async(id, project, filter, incProj) => {
   try {
-    let query = `select c.assigned_to, c.status_text, c.open, c.id as _id, c.issue_title, c.issue_text, c.created_by, c.created_on, c.updated_on 
+    let includeProject = incProj? "c.project, ":""
+    let query = `select ${includeProject}c.assigned_to, c.status_text, c.open, c.id as _id, c.issue_title, c.issue_text, c.created_by, c.created_on, c.updated_on 
     from c where `
-    const { open, issue_title, issue_text, assigned_to, created_by, status_text } = filter
+    const { open, issue_title, issue_text, assigned_to, created_by, status_text, _id } = filter
     
     // filter by either id or project
     if(id) query+=`c.id='${id}'`
     else query+=`c.project='${project}'`
-
+    if(_id) query+=` and c.id='${_id}'`
     if(open) query+=` and c.open=${open}`
     if(issue_title) query+=` and c.issue_title='${issue_title}'`
     if(issue_text) query+=` and c.issue_text='${issue_text}'`
@@ -95,23 +96,20 @@ const deleteIssue = async(id) => {
 const updateIssue = async(issue) => {
   try {
     // first select the current update
-    const select = await selectIssue(issue._id,null,{})
+    const select = await selectIssue(issue._id,null,{},true)
     const selectedItem = select[0]
 
     const {_id, ...updates} = issue
 
     const updatedIssue = {...selectedItem, ...updates}
     const updatedIssueWithDate = {...updatedIssue, "updated_on": new Date()};
-    // const {_id, ...updatedIssueWithoutId } = updatedIssueWithDate
-     const updatedIssueWithId = {...updatedIssueWithDate, id: _id}
+    const updatedIssueWithId = {...updatedIssueWithDate, id: _id}
     
     const { resource : updatedItem } = await container
       .item(_id)
       .replace(updatedIssueWithId)
 
     return updatedItem
-
-    //
 
   } catch (error) {
     console.log(error)
