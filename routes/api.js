@@ -14,7 +14,8 @@ module.exports = function (app) {
     const getIssue = async () => {
       // try fetching results
       try {
-        const response = await db.selectIssue(null,project)
+        // pass in project rather than id, and the url query for filtering
+        const response = await db.selectIssue(null,project, req.query)
         return res.json(response)
       } catch (error) {
         console.log(error)
@@ -63,9 +64,20 @@ module.exports = function (app) {
   
   .put(function (req, res){
     // get vars from body
-    const { _id, assigned_to, created_by, issue_text, issue_title,status_text } = req.body
+    //const { _id, assigned_to, created_by, issue_text, issue_title,status_text } = req.body
+    const issue = req.body
 
-    // TODO first check item exists by selecting
+    const updateIss = async () => {
+      try {
+        const response = await db.updateIssue(issue)
+        res.json({  result: 'successfully updated', '_id': req.body._id })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    
+    updateIss()
+
     
   })
   
