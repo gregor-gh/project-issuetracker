@@ -80,7 +80,9 @@ module.exports = function (app) {
         
         // otherwise update object and return the id
         const response = await db.updateIssue(issue)
-        return res.json({  result: 'successfully updated', '_id': req.body._id })
+        if(response)
+          return res.json({  result: 'successfully updated', '_id': req.body._id })
+        else throw "No response"
       } catch (error) {
         console.log(error)
         return res.json({ error: 'could not update', _id })
@@ -97,7 +99,7 @@ module.exports = function (app) {
     let id = req.body._id;
 
     // if id is blank return error
-    if(id==="")
+    if(!id)
       return res.json({error: "missing _id"})
 
     const delProject = async () => {
@@ -110,11 +112,10 @@ module.exports = function (app) {
           res.json({result:'successfully deleted','_id':id})
 
         // return error if no response (due to returning null in the deleteProject method)
-        else
-          res.json({error: 'could not delete', '_id': id})
+        else throw "No response"
       } catch (e) {
         console.log(e)
-        res.json({"error":e})
+        res.json({error: 'could not delete', '_id': id})
       }
     }
 
