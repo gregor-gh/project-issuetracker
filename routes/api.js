@@ -66,13 +66,24 @@ module.exports = function (app) {
     // get vars from body
     //const { _id, assigned_to, created_by, issue_text, issue_title,status_text } = req.body
     const issue = req.body
+    const _id=req.body._id
 
     const updateIss = async () => {
       try {
+        // if no id then return error
+        if(!_id)
+          return res.json({ error: 'missing _id' })
+        
+        // if no fields to update return error
+        if( !issue["issue_title"] && !issue["issue_text"] && !issue["created_by"] && !issue["assigned_to"] && !issue["status_text"] && !issue["open"])
+          return res.json({ error: 'no update field(s) sent', _id })
+        
+        // otherwise update object and return the id
         const response = await db.updateIssue(issue)
-        res.json({  result: 'successfully updated', '_id': req.body._id })
+        return res.json({  result: 'successfully updated', '_id': req.body._id })
       } catch (error) {
         console.log(error)
+        return res.json({ error: 'could not update', _id })
       }
     }
     
