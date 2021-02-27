@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/static/css/main.2267a7b8.chunk.css",
+    "main.js": "/static/js/main.cc721dfe.chunk.js",
+    "main.js.map": "/static/js/main.cc721dfe.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.539ca859.js",
+    "runtime-main.js.map": "/static/js/runtime-main.539ca859.js.map",
+    "static/js/2.52cb0cd8.chunk.js": "/static/js/2.52cb0cd8.chunk.js",
+    "static/js/2.52cb0cd8.chunk.js.map": "/static/js/2.52cb0cd8.chunk.js.map",
+    "static/js/3.9dcd404b.chunk.js": "/static/js/3.9dcd404b.chunk.js",
+    "static/js/3.9dcd404b.chunk.js.map": "/static/js/3.9dcd404b.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.2267a7b8.chunk.css.map": "/static/css/main.2267a7b8.chunk.css.map",
+    "static/js/2.52cb0cd8.chunk.js.LICENSE.txt": "/static/js/2.52cb0cd8.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/carbon-icons-webfont.caf87cc8.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.539ca859.js",
+    "static/js/2.52cb0cd8.chunk.js",
+    "static/css/main.2267a7b8.chunk.css",
+    "static/js/main.cc721dfe.chunk.js"
+  ]
+}

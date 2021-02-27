@@ -5,7 +5,7 @@ const config = {
   key: process.env.COSMOS_KEY,
   databaseId: "FreeCodeCamp",
   containerId: "IssueTracker",
-  partitionKey: {kind: "Hash", paths: ["/assigned_to"]}
+  partitionKey: {kind: "Hash", paths: ["/project"]} 
 };
 
 module.exports = config

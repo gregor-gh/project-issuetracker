@@ -70,7 +70,7 @@ const selectIssue = async(id, project, filter, incProj) => {
   }
 }
 
-const deleteIssue = async(id) => {
+const deleteIssue = async(id, project) => {
   try {
     // select to get cosmos colleciton key for deletion 
     const select = await selectIssue(id,null,{})
@@ -79,11 +79,8 @@ const deleteIssue = async(id) => {
     if(select.length===0)
       return null
 
-    // assignedto is the key
-    const assigned_to = select[0].assigned_to
-
     // delete by key and id
-    const result = await container.item(id, assigned_to).delete();
+    const result = await container.item(id, project).delete();
 
     return result
     

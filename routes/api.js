@@ -105,7 +105,7 @@ module.exports = function (app) {
     const delProject = async () => {
       try {
         // attempt to delete resposne
-        const response = await db.deleteIssue(id)
+        const response = await db.deleteIssue(id, project)
 
         // return success if there is a response
         if(response)
